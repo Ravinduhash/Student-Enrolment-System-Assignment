@@ -182,6 +182,7 @@ namespace Student_Enrolment_System_Assignment
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(234, 22);
             this.textBox3.TabIndex = 12;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // textBox4
             // 
@@ -240,6 +241,7 @@ namespace Student_Enrolment_System_Assignment
             this.button1.TabIndex = 17;
             this.button1.Text = "INSERT";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -295,6 +297,7 @@ namespace Student_Enrolment_System_Assignment
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form2";
             this.Text = "Student Enrolment System";
+            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
