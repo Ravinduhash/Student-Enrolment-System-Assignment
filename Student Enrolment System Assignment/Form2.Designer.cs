@@ -254,6 +254,7 @@ namespace Student_Enrolment_System_Assignment
             this.button2.TabIndex = 18;
             this.button2.Text = "DELETE";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
