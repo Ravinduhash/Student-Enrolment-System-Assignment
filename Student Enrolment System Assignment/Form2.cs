@@ -13,8 +13,14 @@ namespace Student_Enrolment_System_Assignment
 {
     public partial class Form2 : Form
     {
-        SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\RHATU\DOCUMENTS\STUDENTDB.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-        
+
+        String dbConnctionString = "Data Source=MSI\\SQLEXPRESS;Initial Catalog=DbTester;Persist Security Info=True;User ID=ravindu;Password=Asd@12345";
+       
+      //  SqlConnection con = new SqlConnection(@"Data Source=MSI\\SQLEXPRESS;Initial Catalog=DbTester;Persist Security Info=True;User ID=ravindu;Password=Asd@12345");
+       
+        //SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\RHATU\DOCUMENTS\STUDENTDB.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
+        //string queryString = "EXECUTE NonExistantStoredProcedure";
         //SqlConnection con = new SqlConnection();
         //con.ConnectionString = "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=C:\USERS\RHATU\DOCUMENTS\STUDENTDB.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         //Con.Open();
@@ -60,11 +66,21 @@ namespace Student_Enrolment_System_Assignment
                     gender = "Female";
                 }
 
+                if (gender.Equals("Male"))
+                {
+                    gender = "M";
+                }
+                else
+                {
+                    gender = "F";
+                }
+
 
                 //try
                 //{
+                SqlConnection con = new SqlConnection(dbConnctionString);
                     con.Open();
-                    SqlCommand cmd = new SqlCommand("insert into dboTabale values(" + textBox1.Text + "," + textBox2.Text + "," + dateTimePicker1.Value.Date + "," + textBox3 + "," + gender + "," + comboBox1.SelectedItem + "," + textBox4.Text + "", con);
+                    SqlCommand cmd = new SqlCommand("insert into student values ('" + textBox1.Text + "','" + textBox2.Text + "','" + dateTimePicker1.Value.Date + "','" + gender + "','" + comboBox1.SelectedItem + "','" + textBox4.Text + "')", con);
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Student successfully added to the system");
                     con.Close();
@@ -78,32 +94,7 @@ namespace Student_Enrolment_System_Assignment
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                DateTime bdate = dateTimePicker1.Value.Date;
-                DateTime fdate = DateTime.Now;
-
-                string diff = (bdate - fdate).TotalDays.ToString();
-                int totaldays = Convert.ToInt32(diff);
-                int year = totaldays / 365;
-                int remainingdays = totaldays % 365;
-                int month = remainingdays / 30;
-
-                int day = remainingdays % 30;
-
-                string textBox3 = day.ToString() + "/" + month.ToString() + "/" + year.ToString();
-
-                if (year < 18)
-                {
-                    MessageBox.Show("Cannot Enroll – Below 18 years");
-                    return;
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-            }
+            
         }
 
             private void button2_Click(object sender, EventArgs e)
@@ -116,8 +107,9 @@ namespace Student_Enrolment_System_Assignment
                 }
                 else
                 {
-                    con.Open();
-                    string query = "delete from dbo.Table where Registration Number=" + textBox1.Text + ";";
+                SqlConnection con = new SqlConnection(dbConnctionString);
+                con.Open();
+                    string query = "delete from student where Registration_Number=" + textBox1.Text + " ";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Student data deleted from the system");
@@ -126,6 +118,98 @@ namespace Student_Enrolment_System_Assignment
                     //populate();
 
                 }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection(dbConnctionString);
+            con.Open();
+            SqlCommand cmd = new SqlCommand("insert into Customer values(1,'Gayan'", con);
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Student successfully added to the system");
+            con.Close();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            // MessageBox.Show("232323");
+
+            DateTime bdate = dateTimePicker1.Value.Date;
+            DateTime fdate = DateTime.Now;
+
+            double diff = (fdate - bdate).TotalDays;
+            int totaldays = Convert.ToInt32(diff);
+            int year = totaldays / 365;
+            int remainingdays = totaldays % 365;
+            int month = remainingdays / 30;
+
+            int day = remainingdays % 30;
+
+            string textBox3Val = day.ToString() + "/" + month.ToString() + "/" + year.ToString();
+
+            if (year < 18)
+            {
+                MessageBox.Show("Cannot Enroll – Below 18 years");
+                return;
+            }
+            else
+            {
+                textBox3.Text = textBox3Val;
+            }
+        }
+
+        private void dateTimePicker1_Enter(object sender, EventArgs e)
+        {
+           // MessageBox.Show("232323");
+        }
+
+        private void dateTimePicker1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                try
+                {
+                    DateTime bdate = dateTimePicker1.Value.Date;
+                    DateTime fdate = DateTime.Now;
+
+                    double diff = (fdate - bdate).TotalDays;
+                    int totaldays = Convert.ToInt32(diff);
+                    int year = totaldays / 365;
+                    int remainingdays = totaldays % 365;
+                    int month = remainingdays / 30;
+
+                    int day = remainingdays % 30;
+
+                    string textBox3Val = day.ToString() + "/" + month.ToString() + "/" + year.ToString();
+
+                    if (year < 18)
+                    {
+                        MessageBox.Show("Cannot Enroll – Below 18 years");
+                        return;
+                    }
+                    else
+                    {
+                        textBox3.Text = textBox3Val;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            radioButton1 = new System.Windows.Forms.RadioButton();
+            radioButton2 = new System.Windows.Forms.RadioButton();
+            comboBox1 = new System.Windows.Forms.ComboBox();    
         }
     }
 }

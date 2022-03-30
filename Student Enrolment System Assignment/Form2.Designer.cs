@@ -123,6 +123,9 @@ namespace Student_Enrolment_System_Assignment
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(171, 30);
             this.dateTimePicker1.TabIndex = 7;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.dateTimePicker1.Enter += new System.EventHandler(this.dateTimePicker1_Enter);
+            this.dateTimePicker1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dateTimePicker1_KeyPress);
             // 
             // label5
             // 
@@ -267,6 +270,7 @@ namespace Student_Enrolment_System_Assignment
             this.button3.TabIndex = 19;
             this.button3.Text = "CLEAR";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form2
             // 
